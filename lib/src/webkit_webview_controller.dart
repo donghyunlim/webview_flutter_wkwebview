@@ -1183,10 +1183,23 @@ class WebKitNavigationDelegate extends PlatformNavigationDelegate {
           }
         }
 
+        // Create a dummy credential to proceed with the authentication.
+        WebViewCredential credential =
+            WebViewCredential(user: 'dummyUser', password: 'dummyPassword');
+        // Proceed with the dummy authentication. should be replaced with the actual credential in the future. -donny
         completionHandler(
-          NSUrlSessionAuthChallengeDisposition.performDefaultHandling,
-          null,
+          NSUrlSessionAuthChallengeDisposition.useCredential,
+          NSUrlCredential.withUser(
+            user: credential.user,
+            password: credential.password,
+            persistence: NSUrlCredentialPersistence.session,
+          ),
         );
+
+        // completionHandler(
+        //   NSUrlSessionAuthChallengeDisposition.performDefaultHandling,
+        //   null,
+        // );
       },
     );
   }
